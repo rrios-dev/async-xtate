@@ -1,119 +1,99 @@
-# Library Boilerplate
+# Async-Xtate
 
-A modern, type-safe boilerplate for creating TypeScript/JavaScript libraries. This template provides a solid foundation for building high-quality, maintainable libraries with best practices and modern tooling.
+[![npm version](https://badge.fury.io/js/async-xtate.svg)](https://badge.fury.io/js/async-xtate)
+
+A lightweight, type-safe library for managing async state in TypeScript applications.
 
 ## Features
 
-- 🚀 TypeScript support out of the box
-- 📦 Modern build system with esbuild
-- ✅ Jest testing setup
-- 📝 Documentation ready
-- 🔍 ESLint and Prettier configuration
-- 🎯 Type definitions generation
-- 📦 NPM package publishing setup
-- 🧪 Test coverage reporting
-- 🔄 CI/CD ready
+- 🚀 Type-safe async state management
+- 📦 Zero dependencies
+- 🎯 Simple and intuitive API
+- 🔄 Support for all async states (initial, loading, success, error, refetch)
+- 🛠️ Built with TypeScript
 
-## Getting Started
+## Installation
 
-### Prerequisites
-
-- Node.js (v14 or higher)
-- bun, npm, yarn
-
-### Installation
-
-1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/library-boilerplate.git
-cd library-boilerplate
-```
-
-2. Install dependencies:
-```bash
-bun install
+npm install async-xtate
 # or
-npm install
+yarn add async-xtate
 # or
-yarn install
-```
-
-## Project Structure
-
-```
-library-boilerplate/
-├── src/                    # Source code
-│   ├── main.ts            # Main library code
-│   ├── types.ts           # Type definitions
-│   └── main.test.ts       # Tests
-├── dist/                   # Build output
-├── .eslintrc.js           # ESLint configuration
-├── .prettierrc            # Prettier configuration
-├── jest.config.js         # Jest configuration
-├── tsconfig.json          # TypeScript configuration
-└── package.json           # Project metadata and dependencies
-```
-
-## Development
-
-### Building
-
-```bash
-npm run build
+pnpm add async-xtate
 # or
-yarn build
+bun add async-xtate
 ```
 
-### Testing
+## Usage
 
-```bash
-npm test
-# or
-yarn test
+```typescript
+import { 
+  makeAsyncSuccessState,
+  makeAsyncErrorState,
+  makeAsyncLoadingState,
+  makeRefetchState,
+  makeInitialState,
+  type AsyncState
+} from 'async-xtate';
+
+// Define your data and error types
+type UserData = { name: string; email: string };
+type UserError = string;
+
+// Create different states
+const successState = makeAsyncSuccessState<UserData>({ 
+  name: 'John Doe', 
+  email: 'john@example.com' 
+});
+
+const errorState = makeAsyncErrorState<UserError, UserData>(
+  'Failed to fetch user',
+  { name: 'John Doe', email: 'john@example.com' }
+);
+
+const loadingState = makeAsyncLoadingState<UserData, UserError>();
+
+const refetchState = makeRefetchState<UserData, UserError>(
+  { name: 'John Doe', email: 'john@example.com' }
+);
+
+const initialState = makeInitialState<UserData, UserError>();
 ```
 
-### Linting
+## API Reference
 
-```bash
-npm run lint
-# or
-yarn lint
+### State Types
+
+- `AsyncSuccessState<Data>`: Represents a successful async operation
+- `AsyncErrorState<Err, Data>`: Represents a failed async operation
+- `AsyncLoadingState<Data, Err>`: Represents a loading state
+- `AsyncRefetchState<Data, Err>`: Represents a refetching state
+- `AsyncInitialState<Data, Err>`: Represents the initial state
+- `AsyncState<Data, Err>`: Union type of all possible states
+
+### Helper Functions
+
+- `makeAsyncSuccessState<Data>(data: Data)`: Creates a success state
+- `makeAsyncErrorState<Err, Data>(error: Err, data?: Data)`: Creates an error state
+- `makeAsyncLoadingState<Data, Err>(data?: Data, error?: Err)`: Creates a loading state
+- `makeRefetchState<Data, Err>(data?: Data, error?: Err)`: Creates a refetch state
+- `makeInitialState<Data, Err>(data?: Data, error?: Err)`: Creates an initial state
+
+## Type Safety
+
+The library is fully type-safe, providing TypeScript with all the information it needs to ensure type correctness:
+
+```typescript
+const state: AsyncState<UserData, UserError> = makeAsyncSuccessState({
+  name: 'John Doe',
+  email: 'john@example.com'
+});
+
+// TypeScript knows the exact shape of the state
+if (state.status === 'success') {
+  console.log(state.data.name); // ✅ TypeScript knows this is safe
+}
 ```
-
-## Creating Your Library
-
-1. Modify `src/main.ts` with your library's core functionality
-2. Update `src/types.ts` with your type definitions
-3. Add tests in `src/main.test.ts`
-4. Update `package.json` with your library's information:
-   - name
-   - version
-   - description
-   - author
-   - repository
-   - license
-
-## Publishing
-
-1. Update the version in `package.json`
-2. Build your library:
-```bash
-npm run build
-```
-
-3. Publish to npm:
-```bash
-npm publish
-```
-
-## Best Practices
-
-- Write comprehensive tests for all functionality
-- Keep your dependencies up to date
-- Document your API thoroughly
-- Follow semantic versioning
-- Maintain good test coverage
-- Use TypeScript for better type safety
 
 ## Contributing
 
@@ -121,8 +101,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT
-
-## Support
-
-If you find this boilerplate helpful, please give it a star! For issues and feature requests, please use the GitHub issue tracker.
+MIT © [Roberto Ríos](https://github.com/rrios-dev)
