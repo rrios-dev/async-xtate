@@ -1,5 +1,5 @@
 {
-  "name": "asyncstate",
+  "name": "async-xtate",
   "version": "1.0.0",
   "description": "A lightweight, type-safe library for managing async state",
   "main": "dist/index.js",
@@ -11,7 +11,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "test": "jest",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "bun run build",
     "lint": "eslint src"
   },
   "keywords": [
@@ -24,7 +24,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rrios-dev/asyncstate"
+    "url": "https://github.com/rrios-dev/async-xtate"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
